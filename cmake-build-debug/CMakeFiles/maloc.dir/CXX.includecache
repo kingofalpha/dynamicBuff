@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/g/CLionProjects/maloc/dynamicStore.h
+stdlib.h
+-
+
+C:/Users/g/CLionProjects/maloc/main.cpp
+iostream
+-
+list
+-
+vector
+-
+cassert
+-
+random
+-
+dynamicStore.h
+C:/Users/g/CLionProjects/maloc/dynamicStore.h
+
