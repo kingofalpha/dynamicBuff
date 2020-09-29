@@ -5,10 +5,10 @@
 #include "dynamicStore.h"
 
 
-#include <stdio.h>
 
 
 
+static void moveDataToHead(DynamicBuffData* data);
 
 void init(DynamicBuffData* data){
 
@@ -82,7 +82,7 @@ AddDataStatus addData(DynamicBuffData* data, StoreType d){
     return Faill;
 }
 
-void moveDataToHead(DynamicBuffData* data){
+static void moveDataToHead(DynamicBuffData* data){
     StoreType *temp , *realEnd,*realStart;
     temp = data->dataSource;
     realStart = data->dataStart.p;
@@ -106,7 +106,7 @@ void moveDataToHead(DynamicBuffData* data){
 AddDataStatus getStoreData(DynamicBuffData* data, StoreType* d){
 
     if(data->unUseDataLen > 0){
-      *d = data->dataStart.p;
+      *d = *data->dataStart.p;
       ++data->dataStart.p;
       ++data->dataStart.where;
       -- data->unUseDataLen;

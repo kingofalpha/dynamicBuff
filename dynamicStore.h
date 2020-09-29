@@ -6,7 +6,7 @@
 #define MALOC_DYNAMICSTORE_H
 #include<stdlib.h>
 
-typedef unsigned char StoreType;
+typedef void* StoreType;
 typedef unsigned int UnUseDataLen;
 typedef UnUseDataLen DataMaxLen;
 typedef struct {
@@ -35,7 +35,7 @@ typedef  struct {
 void init(DynamicBuffData* data); // 刚定义BuffData时一定要调用这个函数
 
 AddDataStatus addData(DynamicBuffData* data, StoreType d);
-void moveDataToHead(DynamicBuffData* data);
+//void moveDataToHead(DynamicBuffData* data);
 AddDataStatus getStoreData(DynamicBuffData* data, StoreType* d);
 const int defaultLen = 200;
 

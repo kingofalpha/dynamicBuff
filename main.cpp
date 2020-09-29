@@ -16,18 +16,17 @@ AddDataStatus popData(DynamicBuffData* data,StoreType* a){
     return getStoreData(data,a);
 }
 
-int main() {
-
+void test1(){
     DynamicBuffData data;
     init(&data);
     vector<StoreType> vectors;
     std::default_random_engine random;
     const int putSize = 200;
     const int getSize = 30;
-
+    void* pp = malloc(2);
     std::uniform_int_distribution<short> us(0,200);
     for(int i = 0 ; i < putSize;i++){
-        vectors.push_back(us(random));
+        vectors.push_back(pp);
         //cout<<(int)vectors.back()<<endl;
 
     }
@@ -48,7 +47,7 @@ int main() {
     }
 
     assert(vectors.size()==data.unUseDataLen);
-   // std::cout << data.dataMaxLen << std::endl;
+    // std::cout << data.dataMaxLen << std::endl;
     //std::cout << data.unUseDataLen << std::endl;
 
     for(int i = 0 ; i < getSize;i++){
@@ -68,7 +67,7 @@ int main() {
     assert(data.dataStart.where == getSize );
 
 
-    putData(&data,3);
+    putData(&data,pp);
 
     assert(data.dataStart.where == 0);
     assert(data.dataMaxLen == putSize);
@@ -78,8 +77,8 @@ int main() {
 
 
 
-    //std::cout << data.dataMaxLen << std::endl;
-    //std::cout << data.unUseDataLen << std::endl;
+    std::cout << data.dataMaxLen << std::endl;
+    std::cout << data.unUseDataLen << std::endl;
 
     StoreType s;
     while (Sucess == getStoreData(&data,&s));
@@ -92,8 +91,8 @@ int main() {
 
     vectors.clear();
     for(int i = 0 ; i < putSize + 2;i++){
-        vectors.push_back(i);
-        putData(&data,i);
+        vectors.push_back(pp);
+        putData(&data,pp);
     }
 
     for(int i = 0 ; i < vectors.size();i++){
@@ -112,6 +111,46 @@ int main() {
     assert(data.dataEnd.where == -1);
     assert(data.dataEnd.p == NULL);
     assert(data.dataMaxLen == putSize);
+}
+
+
+typedef struct{
+    void* cmd;
+    int type;
+}BuffCmd;
+void test2(){
+    DynamicBuffData cmdDatas; // 用来缓存 cmd datas
+    init(&cmdDatas);
+    for(int i = 0 ; i < 100; i++){
+        int *p = (int*)malloc(sizeof(int));
+        *p = i;
+        BuffCmd * cmd = (BuffCmd*)malloc(sizeof(BuffCmd));
+        cmd->cmd = p;
+        cmd->type = i;
+        int *k = (int*)cmd->cmd;
+        //cout<< *k<<endl;
+        //cout<<cmd<<endl;
+        addData(&cmdDatas,cmd);
+
+    }
+    //cout<<cmdDatas.unUseDataLen<<endl;
+    StoreType s;
+
+    BuffCmd* temp;
+    while (Sucess == getStoreData(&cmdDatas,&s)) {
+
+        temp = (BuffCmd*)s;
+        int *k = (int*)temp->cmd;
+        cout<<*(int*)temp->cmd<<"   "<<temp->type<<endl;
+    }
+
+
+}
+
+
+int main() {
+
+test2();
 
     return 0;
 }
